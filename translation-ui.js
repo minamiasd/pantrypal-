@@ -1,0 +1,1 @@
+window.PANTRYPAL_CHINESE_LABELS = {ingredients:'食材',steps:'烹饪步骤',translate:'翻译成中文'};
