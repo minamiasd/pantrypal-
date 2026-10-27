@@ -29,16 +29,110 @@ const recipes=[
 ["韭菜炒鸡蛋","🥚",["韭菜","鸡蛋","盐","食用油"],"鸡蛋炒熟盛出，韭菜快炒后与鸡蛋混合调味。",12],
 ["肉末茄子","🍆",["茄子","猪肉末","蒜","酱油"],"茄子炒软，加入炒香的肉末、蒜和酱油烧入味。",25]
 ];
+
+// Expanded locally curated starter library: real-world familiar home-cooking ideas.
+const extraRecipeRows=[
+"鱼香肉丝|🥢|猪肉,胡萝卜,木耳,青椒,豆瓣酱|肉切丝炒熟，与蔬菜、调味酱汁快炒。|25",
+"宫保鸡丁|🍗|鸡肉,花生,黄瓜,辣椒,酱油|鸡丁炒熟，加入花生和配菜与酸甜调味汁炒匀。|25",
+"红烧肉|🥩|五花肉,姜,酱油,糖|五花肉煎出油脂，加入调味料与水，小火炖软。|70",
+"糖醋里脊|🥩|猪肉,鸡蛋,淀粉,番茄酱,糖|肉条裹浆炸熟，加入糖醋番茄酱汁翻匀。|35",
+"酸辣土豆丝|🥔|土豆,干辣椒,醋,蒜|土豆切丝洗去淀粉，快炒至脆熟，沿锅边淋醋。|15",
+"地三鲜|🍆|茄子,土豆,青椒,蒜|三种蔬菜分别炒熟，再加蒜和酱油炒匀。|25",
+"蒜蓉生菜|🥬|生菜,蒜,食用油,盐|生菜大火快炒，加蒜末与盐调味。|10",
+"手撕包菜|🥬|包菜,蒜,干辣椒,醋|包菜撕片沥干水分，热锅快速翻炒并调味。|12",
+"蚝油西兰花|🥦|西兰花,蚝油,蒜|西兰花焯水，蒜末炒香后拌入蚝油。|15",
+"清炒菠菜|🥬|菠菜,蒜,盐|菠菜洗净，蒜末炒香后加入菠菜炒软。|10",
+"白菜豆腐汤|🍲|白菜,豆腐,姜,盐|白菜与姜煮软，放豆腐稍煮后调味。|20",
+"紫菜蛋花汤|🍵|紫菜,鸡蛋,葱,盐|清水煮开加入紫菜，缓缓淋入蛋液形成蛋花。|10",
+"玉米排骨汤|🍲|排骨,玉米,胡萝卜,姜|排骨焯水后与蔬菜同炖至熟软。|65",
+"冬瓜排骨汤|🍲|冬瓜,排骨,姜,盐|排骨炖熟后下冬瓜，煮至透明。|65",
+"香菇鸡汤|🍲|鸡肉,香菇,姜,盐|鸡块焯水后和香菇、姜炖至熟透。|60",
+"酸辣汤|🥣|豆腐,木耳,鸡蛋,醋,胡椒|豆腐木耳煮开，淋蛋液，最后加醋和胡椒。|20",
+"皮蛋瘦肉粥|🥣|大米,猪肉,皮蛋,姜|米煮成粥，加入肉丝和皮蛋煮熟。|45",
+"南瓜粥|🥣|南瓜,大米,水|南瓜切块与大米煮到软烂。|35",
+"虾仁炒蛋|🍤|虾仁,鸡蛋,葱,盐|虾仁炒至不透明，加入打散鸡蛋炒熟。|15",
+"滑蛋牛肉|🥩|牛肉,鸡蛋,淀粉,酱油|牛肉薄片滑炒熟，加入蛋液小火翻炒。|20",
+"洋葱炒牛肉|🥩|牛肉,洋葱,青椒,酱油|牛肉切薄片先炒熟，再与洋葱青椒快炒。|20",
+"黑椒牛柳|🥩|牛肉,青椒,洋葱,黑胡椒|牛肉条快炒至熟，拌黑椒和配菜。|20",
+"孜然羊肉|🍖|羊肉,洋葱,孜然,辣椒|羊肉与洋葱炒至熟透，加孜然辣椒。|25",
+"番茄炖牛肉|🥘|牛肉,番茄,洋葱,土豆|牛肉炒香，配蔬菜炖至软烂。|75",
+"红烧鸡腿|🍗|鸡腿,姜,蒜,酱油|鸡腿煎上色，加入水和调味料焖熟。|35",
+"香菇焖鸡|🍗|鸡肉,香菇,姜,酱油|鸡块炒香后下香菇加水焖至熟透。|40",
+"葱油鸡|🍗|鸡肉,葱,姜,酱油|鸡肉蒸熟至安全熟度，淋热葱姜油和酱油。|35",
+"口水鸡|🍗|鸡肉,花生,辣椒油,醋|鸡肉煮熟切块，浇香辣调味汁与花生。|40",
+"鸡蛋羹|🥚|鸡蛋,温水,盐|蛋液与温水拌匀过筛，盖盖小火蒸熟。|18",
+"茶叶蛋|🥚|鸡蛋,茶叶,酱油,八角|水煮鸡蛋轻敲壳，加入茶叶香料慢煮浸泡。|45",
+"虎皮青椒|🌶️|青椒,蒜,酱油,醋|青椒煎出虎皮，加入蒜与调味汁烧入味。|18",
+"青椒肉丝|🌶️|猪肉,青椒,酱油,蒜|肉丝炒熟后加入青椒丝快炒。|20",
+"芹菜炒肉|🥬|芹菜,猪肉,姜,酱油|肉片炒熟，加入芹菜炒至断生。|18",
+"蒜苔炒肉|🥬|蒜苔,猪肉,酱油|肉片炒至熟，放蒜苔炒软并调味。|20",
+"木耳炒鸡蛋|🍳|木耳,鸡蛋,葱,盐|木耳焯熟后与炒鸡蛋拌炒。|15",
+"西葫芦炒蛋|🥒|西葫芦,鸡蛋,蒜,盐|西葫芦片炒软后加入炒好的鸡蛋。|15",
+"韭菜盒子|🥟|韭菜,鸡蛋,面粉,食用油|面粉和面擀皮，包韭菜鸡蛋馅煎熟。|45",
+"白菜猪肉饺子|🥟|白菜,猪肉末,面粉,葱|白菜沥水拌入肉馅，包饺子煮至熟透。|65",
+"猪肉馄饨|🥟|猪肉末,馄饨皮,紫菜,葱|调肉馅包入馄饨皮，煮熟配紫菜汤。|35",
+"葱油拌面|🍜|面条,葱,酱油,糖|炸香葱段调制酱汁，拌入煮熟面条。|18",
+"炸酱面|🍜|面条,猪肉末,黄豆酱,黄瓜|肉末与酱炒香，拌在熟面条上配黄瓜。|30",
+"牛肉面|🍜|牛肉,面条,姜,酱油|牛肉炖软后下煮熟的面条，浇牛肉汤。|80",
+"凉拌黄瓜|🥒|黄瓜,蒜,醋,酱油|黄瓜拍碎，拌蒜末、醋和酱油。|10",
+"凉拌三丝|🥗|胡萝卜,黄瓜,豆腐皮,醋|三种材料切丝，豆腐皮焯熟后拌调味料。|15",
+"凉拌木耳|🍄|木耳,蒜,醋,香菜|木耳充分泡发并煮熟，拌醋蒜与香菜。|15",
+"拍黄瓜|🥒|黄瓜,蒜,香油,醋|拍松黄瓜切块，拌蒜末香油和醋。|8",
+"小葱拌豆腐|🥢|豆腐,葱,香油,盐|熟食级豆腐切块，拌葱花香油和盐。|8",
+"蒸南瓜|🎃|南瓜|南瓜切块上锅蒸至软熟。|20",
+"蒜蓉粉丝蒸虾|🍤|虾,粉丝,蒜,酱油|粉丝泡软铺盘，摆虾与蒜蓉蒸至虾熟。|20",
+"番茄虾仁|🍤|番茄,虾仁,蒜,盐|炒软番茄，加入虾仁炒至熟透。|18",
+"香煎三文鱼|🐟|三文鱼,盐,黑胡椒,柠檬|鱼排擦干调味，两面煎至适宜熟度。|15",
+"清蒸鱼|🐟|鱼,姜,葱,酱油|鱼铺姜葱蒸熟，浇酱油调味。|22",
+"红烧鱼|🐟|鱼,姜,蒜,酱油|鱼煎定型，加姜蒜、酱油与水焖熟。|30",
+"酸菜鱼|🍲|鱼,酸菜,姜,辣椒|酸菜炒香加水煮开，放入鱼片煮熟。|35",
+"蒜香虾|🍤|虾,蒜,黄油,盐|蒜末炒香，加入虾炒至完全熟透。|15",
+"番茄意面|🍝|意大利面,番茄,蒜,橄榄油|意面煮熟，与番茄蒜香酱汁拌匀。|25",
+"肉酱意面|🍝|意大利面,牛肉末,番茄,洋葱|炒熟牛肉末和洋葱，加入番茄慢熬后拌面。|35",
+"奶油蘑菇意面|🍝|意大利面,蘑菇,奶油,蒜|蘑菇蒜末炒香，加奶油后拌熟面条。|25",
+"芝士蛋卷|🧀|鸡蛋,芝士,牛奶,黄油|蛋液小火煎半凝固，铺芝士卷起煎熟。|12",
+"土豆煎饼|🥞|土豆,鸡蛋,面粉,盐|土豆擦丝拌入鸡蛋和面粉，摊饼煎熟。|25",
+"香蕉松饼|🥞|香蕉,鸡蛋,面粉,牛奶|食材混匀，小火煎成双面金黄的小饼。|20",
+"水果酸奶杯|🍓|酸奶,香蕉,草莓,燕麦|水果切块与酸奶、燕麦分层装杯。|8",
+"鸡肉沙拉|🥗|鸡胸肉,生菜,番茄,黄瓜|鸡胸肉煎熟切片，与洗净蔬菜拌酱。|25",
+"金枪鱼三明治|🥪|吐司,金枪鱼罐头,生菜,蛋黄酱|金枪鱼沥干拌蛋黄酱，夹入吐司与生菜。|10",
+"火腿芝士三明治|🥪|吐司,火腿,芝士,生菜|材料夹在吐司中，可加热至芝士融化。|10",
+"烤红薯|🍠|红薯|红薯洗净后烤至中心软熟。|50",
+"烤蔬菜|🥕|土豆,胡萝卜,洋葱,橄榄油|蔬菜切块拌油调味，烤至软熟。|40",
+"煎蛋吐司|🍞|鸡蛋,吐司,黄油|鸡蛋煎熟，配烤热吐司。|10",
+"鸡蛋三明治|🥪|鸡蛋,吐司,蛋黄酱,生菜|鸡蛋煮熟切碎拌蛋黄酱，夹吐司。|18"
+];
+recipes.push(...extraRecipeRows.map(line=>{const [name,emoji,ingredients,method,minutes]=line.split("|");return [name,emoji,ingredients.split(","),method,Number(minutes)]}));
+
 const synonym={"西红柿":"番茄","蛋":"鸡蛋","马铃薯":"土豆","肉沫":"猪肉末","大米":"米饭","蘑菇":"香菇"};
 const norm=x=>synonym[x.trim()]||x.trim();const key="pantrypal_v1";let state={ingredients:[],shopping:[],favorites:[]};try{state={...state,...JSON.parse(localStorage.getItem(key)||"{}")}}catch{};let filter="matched",db=null,user=null;
 const el=id=>document.getElementById(id);const save=()=>{localStorage.setItem(key,JSON.stringify(state));render();if(user&&db)sync().catch(e=>el("syncStatus").textContent="同步失败："+e.message)};
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function urls(q){const t=encodeURIComponent(q+" 做法 教程");return [["小红书","https://www.xiaohongshu.com/search_result?keyword="+t],["抖音","https://www.douyin.com/search/"+t],["B站","https://search.bilibili.com/all?keyword="+t],["YouTube","https://www.youtube.com/results?search_query="+t]]}
+
+const mealMap={"鸡蛋":"Egg","番茄":"Tomato","土豆":"Potato","米饭":"Rice","豆腐":"Tofu","鸡肉":"Chicken","猪肉":"Pork","牛肉":"Beef","洋葱":"Onion","胡萝卜":"Carrot","虾":"Prawns","三文鱼":"Salmon","蘑菇":"Mushrooms","奶油":"Cream","面条":"Noodles","牛奶":"Milk","芝士":"Cheese","生菜":"Lettuce","黄瓜":"Cucumber","菠菜":"Spinach","大蒜":"Garlic","蒜":"Garlic","鱼":"Fish","羊肉":"Lamb","青椒":"Green Pepper","玉米":"Sweetcorn","南瓜":"Pumpkin","白菜":"Cabbage","西兰花":"Broccoli","香菇":"Mushrooms","鸡胸肉":"Chicken Breast","火腿":"Ham"};
+let externalRecipes=[],loadingRecipes=false;
+async function loadExternalRecipes(){
+ const terms=[...new Set(state.ingredients.map(i=>mealMap[i]).filter(Boolean))].slice(0,5);
+ if(!terms.length){externalRecipes=[];render();return}
+ loadingRecipes=true;render();
+ try{
+  const req=await Promise.allSettled(terms.map(t=>fetch("https://www.themealdb.com/api/json/v1/1/filter.php?i="+encodeURIComponent(t)).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()})));
+  const ids=[...new Set(req.flatMap(x=>x.status==="fulfilled"?(x.value.meals||[]).map(m=>m.idMeal):[]))].slice(0,18);
+  const details=await Promise.allSettled(ids.map(id=>fetch("https://www.themealdb.com/api/json/v1/1/lookup.php?i="+encodeURIComponent(id)).then(r=>r.json())));
+  externalRecipes=details.flatMap(x=>x.status==="fulfilled"?(x.value.meals||[]):[]).map(m=>({title:m.strMeal,photo:m.strMealThumb,ingredients:Array.from({length:20},(_,i)=>m["strIngredient"+(i+1)]?.trim()).filter(Boolean),steps:m.strInstructions||"",source:m.strSource||"",video:m.strYoutube||"",id:m.idMeal}));
+ }catch(e){externalRecipes=[];console.warn("External recipe API unavailable",e)}
+ finally{loadingRecipes=false;render()}
+}
 function render(){el("chips").innerHTML=state.ingredients.map((s,i)=>'<button class="chip active" data-remove="'+i+'">'+escapeHTML(s)+' ✕</button>').join("")||'<span class="muted">还没有添加食材</span>';el("suggestions").innerHTML=["鸡蛋","番茄","土豆","米饭","豆腐","鸡肉","猪肉末","青椒"].filter(s=>!state.ingredients.includes(s)).map(s=>'<button class="chip" data-add="'+s+'">+ '+s+'</button>').join("");
-let a=recipes.map((r,i)=>{const count=r[2].filter(x=>state.ingredients.includes(x)).length;return {r,i,count,missing:r[2].filter(x=>!state.ingredients.includes(x))}}).sort((a,b)=>b.count-a.count||a.missing.length-b.missing.length);if(filter==="matched"&&state.ingredients.length)a=a.filter(x=>x.count>0);el("count").textContent="("+a.length+")";el("recipes").innerHTML=a.map(({r,i,count,missing})=>'<article class="recipe"><div class="photo">'+r[1]+'</div><div class="info"><span class="tag">已备 '+count+'/'+r[2].length+' 种食材 · '+r[4]+' 分钟</span><h3>'+r[0]+'</h3><div class="muted">食材：'+r[2].join('、')+'</div><div class="muted">缺少：'+(missing.join('、')||'无')+'</div><details><summary>查看制作步骤</summary><p class="steps">'+r[3]+'</p></details><div class="actions"><button class="btn" data-fav="'+i+'">'+(state.favorites.includes(i)?"♥ 已收藏":"♡ 收藏")+'</button><button class="btn" data-shop="'+i+'">加入缺少食材</button></div><div class="links">'+urls(r[0]).map(([n,url])=>'<a target="_blank" rel="noopener noreferrer" href="'+url+'">'+n+' ↗</a>').join('')+'</div></div></article>').join("")||'<p class="muted">暂无匹配，请添加更多食材或查看全部菜谱。</p>';el("shopping").innerHTML=state.shopping.map((x,i)=>'<label><input type="checkbox" data-shopremove="'+i+'"> '+escapeHTML(x)+'</label>').join("")||'<span class="muted">没有需要购买的食材</span>';el("videoSearch").innerHTML=urls(state.ingredients.join(" ")||"家常菜").map(([n,u])=>'<a target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+' ↗</a>').join("")}
-el("add").onclick=()=>{let x=norm(el("ingredient").value);if(x&&!state.ingredients.includes(x))state.ingredients.push(x);el("ingredient").value="";save()};el("ingredient").onkeydown=e=>{if(e.key==="Enter")el("add").click()};el("chips").onclick=e=>{const x=e.target.closest("[data-remove]");if(x){state.ingredients.splice(Number(x.dataset.remove),1);save()}};el("suggestions").onclick=e=>{const x=e.target.closest("[data-add]");if(x){state.ingredients.push(x.dataset.add);save()}};el("recipes").onclick=e=>{const f=e.target.closest("[data-fav]"),s=e.target.closest("[data-shop]");if(f){const i=Number(f.dataset.fav);state.favorites=state.favorites.includes(i)?state.favorites.filter(x=>x!==i):[...state.favorites,i];save()}if(s){const r=recipes[Number(s.dataset.shop)];state.shopping=[...new Set([...state.shopping,...r[2].filter(x=>!state.ingredients.includes(x))])];save()}};el("shopping").onchange=e=>{if(e.target.dataset.shopremove!==undefined){state.shopping.splice(Number(e.target.dataset.shopremove),1);save()}};el("clearShopping").onclick=()=>{state.shopping=[];save()};el("showAll").onclick=()=>{filter="all";render()};el("showMatched").onclick=()=>{filter="matched";render()};el("authButton").onclick=()=>el("authForm").classList.toggle("hidden");
+let a=recipes.map((r,i)=>{const count=r[2].filter(x=>state.ingredients.includes(x)).length;return {r,i,count,missing:r[2].filter(x=>!state.ingredients.includes(x))}}).sort((a,b)=>b.count-a.count||a.missing.length-b.missing.length);if(filter==="matched"&&state.ingredients.length)a=a.filter(x=>x.count>0);el("count").textContent="("+a.length+(externalRecipes.length?" + "+externalRecipes.length+" online":"")+")";el("recipes").innerHTML=a.map(({r,i,count,missing})=>'<article class="recipe"><div class="photo">'+r[1]+'</div><div class="info"><span class="tag">已备 '+count+'/'+r[2].length+' 种食材 · '+r[4]+' 分钟</span><h3>'+r[0]+'</h3><div class="muted">食材：'+r[2].join('、')+'</div><div class="muted">缺少：'+(missing.join('、')||'无')+'</div><details><summary>查看制作步骤</summary><p class="steps">'+r[3]+'</p></details><div class="actions"><button class="btn" data-fav="'+i+'">'+(state.favorites.includes(i)?"♥ 已收藏":"♡ 收藏")+'</button><button class="btn" data-shop="'+i+'">加入缺少食材</button></div><div class="links">'+urls(r[0]).map(([n,url])=>'<a target="_blank" rel="noopener noreferrer" href="'+url+'">'+n+' ↗</a>').join('')+'</div></div></article>').join("")||'<p class="muted">暂无匹配，请添加更多食材或查看全部菜谱。</p>';
+const ext=externalRecipes.map(m=>{const matched=m.ingredients.filter(x=>{const text=x.toLowerCase();return state.ingredients.some(s=>text.includes((mealMap[s]||s).toLowerCase()))}).length;return {m,matched}}).sort((a,b)=>b.matched-a.matched).slice(0,18);
+if(ext.length){el("recipes").innerHTML+='<article style="grid-column:1/-1"><h2>🌎 线上真实菜谱 · TheMealDB</h2><p class="muted">以下是真实来源的英文菜谱，点开来源可查看详情。结果按所选食材搜索；仅供开发测试。</p></article>'+ext.map(({m,matched})=>'<article class="recipe"><img alt="菜品图片" loading="lazy" src="'+encodeURI(m.photo||"")+'" style="width:100%;height:150px;object-fit:cover"><div class="info"><span class="tag">包含现有食材 '+matched+' 种 · 线上菜谱</span><h3>'+escapeHTML(m.title)+'</h3><div class="muted">Ingredients: '+escapeHTML(m.ingredients.slice(0,9).join(", "))+'</div><details><summary>查看英文做法</summary><p class="steps">'+escapeHTML(m.steps.slice(0,2600))+'</p></details><div class="links">'+(m.source?'<a target="_blank" rel="noopener noreferrer" href="'+encodeURI(m.source)+'">原菜谱 ↗</a>':'')+(m.video?'<a target="_blank" rel="noopener noreferrer" href="'+encodeURI(m.video)+'">视频 ↗</a>':'')+urls(m.title).map(([n,u])=>'<a target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+' ↗</a>').join('')+'</div></div></article>').join("")}
+if(loadingRecipes){el("recipes").innerHTML+='<p class="muted">正在加载更多线上菜谱…</p>'}
+el("shopping").innerHTML=state.shopping.map((x,i)=>'<label><input type="checkbox" data-shopremove="'+i+'"> '+escapeHTML(x)+'</label>').join("")||'<span class="muted">没有需要购买的食材</span>';el("videoSearch").innerHTML=urls(state.ingredients.join(" ")||"家常菜").map(([n,u])=>'<a target="_blank" rel="noopener noreferrer" href="'+u+'">'+n+' ↗</a>').join("")}
+el("add").onclick=()=>{let x=norm(el("ingredient").value);if(x&&!state.ingredients.includes(x))state.ingredients.push(x);el("ingredient").value="";save();loadExternalRecipes()};el("ingredient").onkeydown=e=>{if(e.key==="Enter")el("add").click()};el("chips").onclick=e=>{const x=e.target.closest("[data-remove]");if(x){state.ingredients.splice(Number(x.dataset.remove),1);save();loadExternalRecipes()}};el("suggestions").onclick=e=>{const x=e.target.closest("[data-add]");if(x){state.ingredients.push(x.dataset.add);save();loadExternalRecipes()}};el("recipes").onclick=e=>{const f=e.target.closest("[data-fav]"),s=e.target.closest("[data-shop]");if(f){const i=Number(f.dataset.fav);state.favorites=state.favorites.includes(i)?state.favorites.filter(x=>x!==i):[...state.favorites,i];save()}if(s){const r=recipes[Number(s.dataset.shop)];state.shopping=[...new Set([...state.shopping,...r[2].filter(x=>!state.ingredients.includes(x))])];save()}};el("shopping").onchange=e=>{if(e.target.dataset.shopremove!==undefined){state.shopping.splice(Number(e.target.dataset.shopremove),1);save()}};el("clearShopping").onclick=()=>{state.shopping=[];save()};el("showAll").onclick=()=>{filter="all";render()};el("showMatched").onclick=()=>{filter="matched";render()};el("authButton").onclick=()=>el("authForm").classList.toggle("hidden");
 async function sync(){const {error}=await db.from("user_pantry").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error;el("syncStatus").textContent="云同步成功 · "+new Date().toLocaleTimeString()}
 async function setUser(u){user=u;el("accountStatus").textContent=u?u.email:"本地模式";el("authButton").textContent=u?"账号设置":"登录 / 注册";if(u){const {data,error}=await db.from("user_pantry").select("data").eq("user_id",u.id).maybeSingle();if(error){el("syncStatus").textContent="同步读取失败："+error.message;return}if(data?.data){state={...state,...data.data};localStorage.setItem(key,JSON.stringify(state));render()}else await sync();el("syncStatus").textContent="已连接 Supabase 云端"}else el("syncStatus").textContent="未登录 · 数据保存在本地"}
 async function auth(kind){const email=el("email").value.trim(),password=el("password").value;if(!email||password.length<6){alert("请填写有效邮箱和至少 6 位密码");return}const {error}=kind==="signup"?await db.auth.signUp({email,password}):await db.auth.signInWithPassword({email,password});alert(error?error.message:kind==="signup"?"注册已提交。如启用邮箱验证，请检查邮件。":"登录成功")}
-const c=window.PANTRYPAL_CONFIG||{};if(window.supabase&&c.supabaseUrl&&c.supabaseAnonKey){db=window.supabase.createClient(c.supabaseUrl,c.supabaseAnonKey);db.auth.getUser().then(({data})=>setUser(data.user)).catch(()=>el("syncStatus").textContent="身份验证暂不可用");db.auth.onAuthStateChange((_event,s)=>{if(s?.user?.id!==user?.id)setTimeout(()=>setUser(s?.user||null),0)});el("signin").onclick=()=>auth("signin");el("signup").onclick=()=>auth("signup");el("signout").onclick=async()=>{await db.auth.signOut();await setUser(null)}}else el("syncStatus").textContent="尚未配置 Supabase";render();
+const c=window.PANTRYPAL_CONFIG||{};if(window.supabase&&c.supabaseUrl&&c.supabaseAnonKey){db=window.supabase.createClient(c.supabaseUrl,c.supabaseAnonKey);db.auth.getUser().then(({data})=>setUser(data.user)).catch(()=>el("syncStatus").textContent="身份验证暂不可用");db.auth.onAuthStateChange((_event,s)=>{if(s?.user?.id!==user?.id)setTimeout(()=>setUser(s?.user||null),0)});el("signin").onclick=()=>auth("signin");el("signup").onclick=()=>auth("signup");el("signout").onclick=async()=>{await db.auth.signOut();await setUser(null)}}else el("syncStatus").textContent="尚未配置 Supabase";render();loadExternalRecipes();
 </script></body></html>
