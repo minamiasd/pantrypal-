@@ -1,46 +1,18 @@
-/* PantryPal: translate third-party recipe cards without changing their source links. */
+/* PantryPal translation enhancement: instant offline translations with optional API fallback */
 (()=>{'use strict';
-const cacheKey='pantrypal_recipe_translation_zh_v2';
-let cache={};try{cache=JSON.parse(localStorage.getItem(cacheKey)||'{}')}catch{}
-const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-let chain=Promise.resolve();
-async function request(text){
- const key=text.trim();if(!key)return '';
- if(cache[key])return cache[key];
- const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(key.slice(0,450))+'&langpair=en%7Czh-CN';
- const response=await fetch(url);if(!response.ok)throw Error('Translation HTTP '+response.status);
- const payload=await response.json();
- if(Number(payload.responseStatus)!==200||!payload.responseData?.translatedText)throw Error('Translation unavailable');
- const result=payload.responseData.translatedText;
- if(!result||/MYMEMORY WARNING|QUOTA EXCEEDED/i.test(result))throw Error('Translation quota exceeded');
- cache[key]=result;try{localStorage.setItem(cacheKey,JSON.stringify(cache))}catch{}
- await delay(120);return result;
+const names={"Chakchouka":"北非番茄烩蛋","Conch Fritters":"炸海螺饼","Conch Stew":"海螺炖汤","Chicken Handi":"巴基斯坦风味炖鸡","Beef and Mustard Pie":"牛肉芥末派","Egg Drop Soup":"蛋花汤","Spaghetti Bolognese":"意式肉酱面","Pad Thai":"泰式炒河粉","Chicken Curry":"咖喱鸡","Chicken Alfredo Primavera":"奶油蔬菜鸡肉意面","French Onion Soup":"法式洋葱汤","Shakshuka":"北非番茄烩蛋"};
+const terms={"Tomatoes":"番茄","Tomato":"番茄","Eggs":"鸡蛋","Egg":"鸡蛋","Olive Oil":"橄榄油","Onion":"洋葱","Red Pepper":"红椒","Green Pepper":"青椒","Garlic":"大蒜","Cumin":"孜然","Paprika":"红椒粉","Salt":"盐","Conchs":"海螺","Conch":"海螺","Chilli":"辣椒","Lime":"青柠","Black Pepper":"黑胡椒","Scallions":"葱","Seasoning":"调味料","Coconut":"椰子","Chicken":"鸡肉","Beef":"牛肉","Pork":"猪肉","Butter":"黄油","Flour":"面粉","Sugar":"糖","Water":"水","Rice":"米饭","Milk":"牛奶","Carrots":"胡萝卜","Carrot":"胡萝卜","Potatoes":"土豆","Potato":"土豆","Cheese":"奶酪","Mushrooms":"蘑菇","Mushroom":"蘑菇","Ginger":"姜","Coriander":"香菜","Vegetable Oil":"植物油","Oil":"食用油","Fish":"鱼","Shrimp":"虾","Prawns":"虾","Soy Sauce":"酱油","Lemon":"柠檬","Vinegar":"醋","Pepper":"胡椒","Cabbage":"卷心菜"};
+const cacheKey='pantrypal_translation_cache_v3';let cache={};try{cache=JSON.parse(localStorage.getItem(cacheKey)||'{}')}catch{}
+function translateIngredients(line){return line.split(',').map(x=>{const v=x.trim();return terms[v]||v}).join('、')}
+let queue=Promise.resolve();
+async function remote(text){if(cache[text])return cache[text];const task=queue.then(async()=>{const url=new URL('https://api.mymemory.translated.net/get');url.searchParams.set('q',text.slice(0,440));url.searchParams.set('langpair','en|zh-CN');const resp=await fetch(url.toString());if(!resp.ok)throw Error('HTTP '+resp.status);const data=await resp.json();if(Number(data.responseStatus)!==200||!data.responseData?.translatedText||/MYMEMORY WARNING|QUOTA EXCEEDED/i.test(data.responseData.translatedText))throw Error('translation unavailable');cache[text]=data.responseData.translatedText;try{localStorage.setItem(cacheKey,JSON.stringify(cache))}catch{}return cache[text]});queue=task.catch(()=>{});return task}
+async function autoCard(card){if(card.dataset.zhReady)return;card.dataset.zhReady='true';const title=card.querySelector('h3'),ingredient=[...card.querySelectorAll('.muted')].find(e=>e.textContent.trim().startsWith('Ingredients:'));if(!title)return;
+const orig=title.textContent.trim(),nativeName=names[orig];let chinese= nativeName || '';
+const english=document.createElement('div');english.className='muted';english.textContent='英文原名：'+orig;title.after(english);
+if(ingredient){const raw=ingredient.textContent.replace(/^Ingredients:\s*/,'');ingredient.textContent='食材：'+translateIngredients(raw)}
+const details=card.querySelector('details');if(details){const summary=details.querySelector('summary');if(summary)summary.textContent='查看做法（英文原文 / 中文翻译）';const original=details.querySelector('.steps');if(original){const btn=document.createElement('button');btn.type='button';btn.className='btn';btn.textContent='将做法翻译成中文';const output=document.createElement('p');output.className='steps';output.hidden=true;btn.onclick=async()=>{btn.disabled=true;btn.textContent='翻译中…';output.hidden=false;try{const str=original.textContent;const chunks=str.match(/[\s\S]{1,370}/g)||[];const translated=[];for(const chunk of chunks.slice(0,8))translated.push(await remote(chunk));output.textContent=translated.join(' ');btn.textContent='已翻译'}catch{output.textContent='翻译服务不可用，请参考下方英文原文。';btn.textContent='重试翻译';btn.disabled=false}};original.before(btn,output)}}
+if(chinese){title.textContent=chinese}else{title.textContent='正在翻译：'+orig;try{chinese=await remote(orig);if(card.isConnected)title.textContent=chinese}catch{if(card.isConnected)title.textContent=orig;english.textContent='暂无中文翻译 · 英文原名：'+orig}}
 }
-function translate(text){const task=chain.then(()=>request(text));chain=task.catch(()=>{});return task}
-function batches(text,max=390){const output=[];let remaining=text.trim();while(remaining.length&&output.length<14){let end=Math.min(max,remaining.length);if(end<remaining.length){let n=Math.max(remaining.lastIndexOf('. ',end),remaining.lastIndexOf('。',end),remaining.lastIndexOf('\n',end));if(n>140)end=n+1}output.push(remaining.slice(0,end));remaining=remaining.slice(end).trim()}return output}
-const original=new WeakMap();
-async function processCard(card){
- if(card.dataset.zhSetup)return;card.dataset.zhSetup='1';
- const title=card.querySelector('h3'),info=[...card.querySelectorAll('.muted')].find(x=>x.textContent.startsWith('Ingredients:'));
- if(!title)return;
- const enTitle=title.textContent;original.set(title,enTitle);
- const english=document.createElement('div');english.className='muted';english.textContent='英文原名：'+enTitle;title.after(english);
- const details=card.querySelector('details');
- if(details){
-  const button=document.createElement('button');button.className='btn';button.type='button';button.textContent='翻译做法为中文';
-  const result=document.createElement('p');result.className='steps';result.hidden=true;
-  button.addEventListener('click',async()=>{
-   button.disabled=true;button.textContent='正在翻译…';result.hidden=false;
-   try{const text=details.querySelector('.steps')?.textContent||'';const parts=batches(text,390);const texts=[];for(const part of parts)texts.push(await translate(part));result.textContent=texts.join(' ');button.textContent='中文翻译完成'}
-   catch(e){result.textContent='翻译服务暂不可用，可继续阅读下方英文原文。';button.textContent='重试翻译';button.disabled=false}
-  });details.insertBefore(button,details.querySelector('.steps'));details.insertBefore(result,details.querySelector('.steps'));
- }
- try{title.textContent=await translate(enTitle);if(info){const source=info.textContent.replace(/^Ingredients:\s*/, '');info.textContent='食材：'+await translate(source)}}catch(e){const note=document.createElement('small');note.className='muted';note.textContent='暂时无法翻译，已保留英文原文';card.querySelector('.info')?.append(note)}
-}
-let processing=false;
-async function scan(){if(processing)return;processing=true;try{
- const cards=[...document.querySelectorAll('#recipes article.recipe')].filter(c=>c.querySelector('.tag')?.textContent.includes('线上菜谱')&&!c.dataset.zhSetup).slice(0,15);
- for(const card of cards)await processCard(card);
-}finally{processing=false}}
-const grid=document.getElementById('recipes');if(grid){const observer=new MutationObserver(()=>{queueMicrotask(scan)});observer.observe(grid,{childList:true});scan()}
+let running=false;async function scan(){if(running)return;running=true;try{const cards=[...document.querySelectorAll('#recipes article.recipe')].filter(c=>c.querySelector('.tag')?.textContent.includes('线上菜谱')&&!c.dataset.zhReady);for(const card of cards.slice(0,18))await autoCard(card)}finally{running=false}}
+const host=document.getElementById('recipes');if(host){new MutationObserver(()=>{scan()}).observe(host,{childList:true});scan()}
 })();
