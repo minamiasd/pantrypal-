@@ -1,0 +1,1 @@
+window.PANTRYPAL_CONFIG={supabaseUrl:"https://jiitmcmsrflfxvitepja.supabase.co",supabaseAnonKey:"sb_publishable_ORt_RPUen4w9VM9vmy2xUQ_RQMYT6TN"};
